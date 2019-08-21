@@ -1,0 +1,14 @@
+[package]
+name = "spectrum-signin"
+version = "0.1.0"
+authors = ["Addie Morrison <developer@0xadd1e.me>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "1.0"
+actix-web-static-files = "0.2"
+
+[build-dependencies]
+actix-web-static-files = "0.2"
