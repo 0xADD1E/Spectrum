@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "./spectrum.db",
+            "dialect": "SQLite",
+            "name": "SpectrumDB"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

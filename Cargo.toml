@@ -7,6 +7,17 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+log = "0.4"
+env_logger = "0.6"
+failure = "0.1"
+port_check = "0.1.0"
+webbrowser = "0.5.1"
+
+serde = "1.0"
+r2d2 = "0.8"
+r2d2_sqlite = "0.12"
+rusqlite = "0.20"
+
 actix-web = "1.0"
 actix-web-static-files = "0.2"
 

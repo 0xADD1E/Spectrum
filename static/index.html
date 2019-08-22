@@ -1,251 +1,180 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+    <head>
+        <!-- Standard Meta -->
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 
-<head>
-    <!-- Standard Meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <!-- Site Properties -->
+        <title>Sign In Boi</title>
+        <link rel="stylesheet" type="text/css" href="assets/semantic.min.css" />
+        <link rel="stylesheet" type="text/css" href="masthead.css" />
+        <script src="assets/jquery-3.1.1.min.js"></script>
+        <script src="assets/semantic.min.js"></script>
 
-    <!-- Site Properties -->
-    <title>Sign In Boi</title>
-    <link rel="stylesheet" type="text/css" href="assets/components/reset.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/site.css">
+        <script>
+            $(document).ready(() => {
+                const youre_all = message => {
+                    const signin = $("#signin");
+                    const success = $("#success");
+                    const messagebox = $("#success_text");
+                    messagebox.text(messagebox.text().replace("%action%", message));
+                    signin.hide((callback = () => success.show()));
+                    setTimeout(() => {
+                        success.fadeToggle((callback = () => signin.fadeToggle()));
+                    }, 3000);
+                };
 
-    <link rel="stylesheet" type="text/css" href="assets/components/container.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/grid.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/header.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/image.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/menu.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/form.css">
-
-    <link rel="stylesheet" type="text/css" href="assets/components/divider.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/dropdown.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/segment.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/button.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/list.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/icon.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/sidebar.css">
-    <link rel="stylesheet" type="text/css" href="assets/components/transition.css">
-
-    <style type="text/css">
-        .hidden.menu {
-            display: none;
-        }
-
-        .masthead.segment {
-            min-height: 700px;
-            padding: 1em 0em;
-        }
-
-        .masthead .logo.item img {
-            margin-right: 1em;
-        }
-
-        .masthead .ui.menu .ui.button {
-            margin-left: 0.5em;
-        }
-
-        .masthead h1.ui.header {
-            margin-top: 3em;
-            margin-bottom: 0em;
-            font-size: 4em;
-            font-weight: normal;
-        }
-
-        .masthead h2 {
-            font-size: 1.7em;
-            font-weight: normal;
-        }
-
-        .ui.vertical.stripe {
-            padding: 8em 0em;
-        }
-
-        .ui.vertical.stripe h3 {
-            font-size: 2em;
-        }
-
-        .ui.vertical.stripe .button+h3,
-        .ui.vertical.stripe p+h3 {
-            margin-top: 3em;
-        }
-
-        .ui.vertical.stripe .floated.image {
-            clear: both;
-        }
-
-        .ui.vertical.stripe p {
-            font-size: 1.33em;
-        }
-
-        .ui.vertical.stripe .horizontal.divider {
-            margin: 3em 0em;
-        }
-
-        .quote.stripe.segment {
-            padding: 0em;
-        }
-
-        .quote.stripe.segment .grid .column {
-            padding-top: 5em;
-            padding-bottom: 5em;
-        }
-
-        .footer.segment {
-            padding: 5em 0em;
-        }
-
-        .secondary.pointing.menu .toc.item {
-            display: none;
-        }
-
-        @media only screen and (max-width: 700px) {
-            .ui.fixed.menu {
-                display: none !important;
-            }
-
-            .secondary.pointing.menu .item,
-            .secondary.pointing.menu .menu {
-                display: none;
-            }
-
-            .secondary.pointing.menu .toc.item {
-                display: block;
-            }
-
-            .masthead.segment {
-                min-height: 350px;
-            }
-
-            .masthead h1.ui.header {
-                font-size: 2em;
-                margin-top: 1.5em;
-            }
-
-            .masthead h2 {
-                margin-top: 0.5em;
-                font-size: 1.5em;
-            }
-        }
-    </style>
-
-    <script src="assets/jquery-3.1.1.min.js"></script>
-    <script src="assets/components/visibility.js"></script>
-    <script src="assets/components/sidebar.js"></script>
-    <script src="assets/components/transition.js"></script>
-    <script src="assets/components/dropdown.js"></script>
-    <script src="assets/components/form.js"></script>
-    
-    <script>
-        const userSelector = '#userNameBox';
-        $(document)
-            .ready(() => {
-                const prideColours = ['red', 'orange', 'yellow', 'green', 'blue', 'violet'];
-                const selection = prideColours[Math.floor(Math.random()*prideColours.length)];
-                $('#colourfulBoi').addClass(selection);
-                
-                fetch(new Request('/api/listCurrentPeople'))
-                .then(response=>{
-                    if(!response.ok){
-                        console.error(response);
-                    }
-                    const respValues = response.json();
-                    /* Should be of form...
-                    {values: [
-                        {name: 'Male', value: 'male'},
-                        {name: 'Female', value: 'female'}
-                    ]}
-                    */
-                    const values = !jQuery.isEmptyObject(respValues) ? respValues : {
-                        values: [
-                            {name:'ASDF', value:'asdf'},
-                            {name:'QwER', value:'qwer'},
-                        ],
-                    };
-                    let spec = {...values, ...{
-                        searchable: true,
-                        allowAdditions: true,
-                        placeholder: 'Your Name',
-                        fullTextSearch: true
-                    }};
-                    $(userSelector).dropdown(spec);
-                    spec.placeholder = ':(';
-                    $('#oldName').dropdown(spec);
-                    spec.placeholder = ':0';
-                    $('#newPronouns').dropdown(spec);
-                })
-            });
-        const userSignIn = () => {
-            const data = {
-                name: $(userSelector).val()//.value
-            };
-            const request = new Request('/api/signIn', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
+                if (window.location.href.search("#signedin") !== -1) {
+                    youre_all("signed in");
+                } else if (window.location.href.search("#updated") !== -1) {
+                    youre_all("updated");
                 }
-            }); 
-            fetch(request)
-            .then(request => {
-                alert('uh popup thing hello there'+JSON.stringify(data));
-            })
-        }
-    </script>
-</head>
+                const prideColours = ["red", "orange", "yellow", "green", "blue", "violet"];
+                const selection = prideColours[Math.floor(Math.random() * prideColours.length)];
+                $("#signin").addClass(selection);
 
-<body class="pushable">
-    <div class="pusher">
-        <div class="ui inverted vertical masthead center aligned segment">
-            <div class="ui text container">
-                <h1 class="ui inverted header">
-                    Spectrum
-                </h1>
-                <h2>LGBTQ and Allies</h2>
-                <div id="colourfulBoi" class="ui raised segment inverted">
-                <h3>Please Sign In</h3>
-                <br />
-                    <select id="userNameBox" class="ui search dropdown"></select>
-                    <div class="ui inverted button" onclick="userSignIn()">Submit</div>
+                let spec = {
+                    clearable: true,
+                    searchable: true,
+                    hideAdditions: false,
+                    fullTextSearch: true,
+                    apiSettings: {
+                        cache: false
+                    }
+                };
+
+                spec.placeholder = "\\ (•◡•) /";
+                spec.apiSettings.url = "/listPronouns"; //'/{query}' to filter server-side
+                $("#change_newpronouns").dropdown(spec);
+
+                spec.placeholder = "(◕‿◕✿)";
+                $("#signup_pronouns").dropdown(spec);
+
+                spec.placeholder = ":(";
+                spec.apiSettings.url = "/listPeople"; //'/{query}' to filter server-side
+                $("#change_oldname").dropdown(spec);
+
+                spec.allowAdditions = true;
+                spec.placeholder = "Your Name";
+                $("#signin_name").dropdown(spec);
+
+                $("#signin").submit(event => {
+                    const provided_name = $("#signin_name").val();
+                    if (!/^\d+$/.test(provided_name)) {
+                        event.preventDefault();
+                        $("#signup_name").val(provided_name);
+                        $("#signup").modal("show");
+                    }
+                });
+            });
+        </script>
+    </head>
+
+    <body class="pushable">
+        <form id="signup" class="ui modal form" action="/signin" method="POST">
+            <div class="header">
+                <h1>Hey! You seem new here!</h1>
+            </div>
+            <div class="content">
+                <div class="fields">
+                    <div class="ui eight wide field">
+                        <label>Your Name</label>
+                        <input id="signup_name" name="signin_name" />
+                    </div>
+
+                    <div class="ui eight wide field">
+                        <label>Your Pronouns</label>
+                        <select
+                            id="signup_pronouns"
+                            name="pronouns"
+                            class="ui search dropdown"
+                        ></select>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="submit" class="ui green button">OK</button>
+            </div>
+        </form>
+        <div class="pusher">
+            <div class="ui inverted vertical masthead center aligned segment">
+                <div class="ui text container">
+                    <h1 class="ui inverted header">
+                        Spectrum
+                    </h1>
+                    <h2>LGBTQ and Allies</h2>
+                    <form
+                        id="signin"
+                        class="ui form inverted segment"
+                        action="/signin"
+                        method="POST"
+                    >
+                        <h3>Please Sign In</h3>
+                        <br />
+                        <select
+                            id="signin_name"
+                            name="signin_name"
+                            class="ui eight wide search dropdown"
+                        ></select>
+                        <button id="signin_submit" class="ui inverted button" type="submit">
+                            Submit
+                        </button>
+                    </form>
+                    <div id="success" class="ui icon success message hidden">
+                        <i class="check icon"></i>
+                        <div id="success_text" class="header">
+                            You're all %action%!
+                        </div>
+                    </div>
                 </div>
             </div>
 
-        </div>
-
-        <div class="ui vertical stripe quote segment">
-            <div class="ui equal width stackable internally celled grid">
-                <div class="center aligned row">
-                    <div class="column">
-                        <h3>New name or pronouns?</h3>
-                        <p>Change it here and get the old one out of the system</p>
-                        
-                        <form class="ui form raised segment">
-                            <div class="fields">
-                                <div class="field">
-                                    <label>Old Name</label>
-                                    <select id="oldName" class="ui search dropdown"></select>
+            <div class="ui vertical stripe quote segment">
+                <div class="ui equal width stackable internally celled grid">
+                    <div class="center aligned row">
+                        <div class="column">
+                            <h3>New name or pronouns?</h3>
+                            <p>Change it here and get the old stuff out of the system</p>
+                            <form class="ui form raised segment" action="/update" method="POST">
+                                <div class="fields">
+                                    <div class="field">
+                                        <label>Old Name</label>
+                                        <select
+                                            id="change_oldname"
+                                            name="oldname"
+                                            class="ui search dropdown"
+                                        ></select>
+                                    </div>
+                                    <div class="field">
+                                        <label>New Name</label>
+                                        <input
+                                            id="change_newname"
+                                            name="newname"
+                                            type="text"
+                                            placeholder="♥‿♥"
+                                        />
+                                    </div>
+                                    <div class="field">
+                                        <label>New Pronouns</label>
+                                        <select
+                                            id="change_newpronouns"
+                                            name="newpronouns"
+                                            class="ui search dropdown"
+                                        ></select>
+                                    </div>
                                 </div>
-                                <div class="field">
-                                    <label>New Name</label>
-                                    <input id="newName" type="text" placeholder=":)"></input>
-                                </div>
-                                <div class="field">
-                                    <label>New Pronouns</label>
-                                    <select id="newPronouns" class="ui search dropdown"></select>
-                                </div>
-                            </div>
-                            <div class="ui green button">Change</div>
-                        </form>
-
-                    </div>
-                    <div class="column">
-                        <h3>Are you an officer?</h3>
-                        <p>Get your hands on some fancy charts <a href="">here</a></p>
+                                <button type="submit" class="ui green button">Change</button>
+                            </form>
+                        </div>
+                        <div class="column">
+                            <h3>Are you an occifer?</h3>
+                            <p>Get your hands on some fancy charts <a href="">here</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-</body>
-
+    </body>
 </html>
